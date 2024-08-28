@@ -82,7 +82,8 @@ fun Greeting(modifier: Modifier = Modifier) {
     val systemUiController = rememberSystemUiController()
     val color1 = Color(0xFF139DC0)
     val color2 = Color(0xAB13BAC0)
-    Column {
+    Column (modifier = Modifier
+        .background(color = Color.White)) {
         Row (modifier = Modifier
             .background(color = color1)
             .fillMaxWidth()
@@ -126,7 +127,7 @@ fun Greeting(modifier: Modifier = Modifier) {
                 }
             }
 
-            var countElements = 3
+            var countElements = 1
 
             val adjustedCount = if (countElements % 2 != 0) countElements + 1 else countElements
 
@@ -134,7 +135,7 @@ fun Greeting(modifier: Modifier = Modifier) {
                 LazyVerticalGrid(columns = GridCells.Fixed(2),
                     modifier = Modifier
                         .padding(start = 20.dp, end = 20.dp)
-                        .height(((adjustedCount / 2) * 180).dp)
+                        .height(((adjustedCount / 2) * 228).dp)
                         .fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -152,6 +153,10 @@ fun Greeting(modifier: Modifier = Modifier) {
                             )
                             Text(modifier = Modifier.padding(horizontal = 15.dp),
                                 text = "Item $index")
+                            Text(modifier = Modifier
+                                .padding(horizontal = 15.dp)
+                                .padding(top = 5.dp, bottom = 10.dp),
+                                text = "Description")
                         }
                     }
                 }
@@ -175,7 +180,7 @@ fun Greeting(modifier: Modifier = Modifier) {
                 }
             }
 
-            var countElements2 = 10
+            var countElements2 = 4
 
             val adjustedCount2 = if (countElements2 % 2 != 0) countElements2 + 1 else countElements2
 
@@ -183,13 +188,28 @@ fun Greeting(modifier: Modifier = Modifier) {
                 LazyVerticalGrid(columns = GridCells.Fixed(2),
                     modifier = Modifier
                         .padding(start = 20.dp, end = 20.dp, bottom = 32.dp)
-                        .height(((adjustedCount2 / 2) * 95).dp)
+                        .height(((adjustedCount2 / 2) * 228).dp)
                         .fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     items(countElements2) {index ->
-                        Card (modifier = Modifier.height(75.dp)){
-                            Text(text = "Item $index")
+                        val imageId = imageIds[index % imageIds.size]
+
+                        Card (modifier = Modifier
+                            .fillMaxHeight()){
+                            Image(
+                                painter = painterResource(id = imageId),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(15.dp)
+                            )
+                            Text(modifier = Modifier.padding(horizontal = 15.dp),
+                                text = "Item $index")
+                            Text(modifier = Modifier
+                                .padding(horizontal = 15.dp)
+                                .padding(top = 5.dp, bottom = 10.dp),
+                                text = "Description")
                         }
                     }
                 }
