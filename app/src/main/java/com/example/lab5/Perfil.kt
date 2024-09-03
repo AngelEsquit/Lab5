@@ -18,9 +18,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,19 +55,17 @@ class Perfil : ComponentActivity() {
 @Composable
 fun Greeting4(name: String, modifier: Modifier = Modifier) {
     val imageIds = listOf(
-        R.drawable.icon_2_background,
-        R.drawable.icon_3_background,
-        R.drawable.icon_4_background,
-        R.drawable.icon_5_background,
-        R.drawable.icon_6_background,
-        R.drawable.icon_7_background,
-        R.drawable.icon_8_background,
-        R.drawable.icon_9_background,
-        R.drawable.icon_10_background
+        R.drawable.perfil,
+        R.drawable.candado,
+        R.drawable.campana,
+        R.drawable.estrella
     )
 
 
     val color1 = Color(0xFF139DC0)
+
+    // Estado del switch
+    val isChecked = remember { mutableStateOf(false) }
 
     Column (modifier = Modifier
         .padding(top = 35.dp)
@@ -79,7 +81,7 @@ fun Greeting4(name: String, modifier: Modifier = Modifier) {
         ) {
             Box (modifier = Modifier.padding(top = 60.dp)){
                 Image(
-                    painter = painterResource(id = imageIds[1]),
+                    painter = painterResource(id = imageIds[0]),
                     contentDescription = null,
                     modifier = Modifier
                         .size(150.dp)
@@ -97,16 +99,15 @@ fun Greeting4(name: String, modifier: Modifier = Modifier) {
 
         LazyColumn (modifier = Modifier
             .background(color = Color.White)) {
-            items(5) { index ->
+            items(4) { index ->
                 Row (modifier = Modifier
                     .fillMaxWidth()
                     .height(80.dp)
-                    .background(color = Color.White)
-                    .border(width = 2.dp, color = Color.Black),
+                    .background(color = Color.White),
                     verticalAlignment = Alignment.CenterVertically){
                     Box (modifier = Modifier.padding(start = 15.dp)){
                         Image(
-                            painter = painterResource(id = imageIds[index % imageIds.size]),
+                            painter = painterResource(id = imageIds[index]),
                             contentDescription = null,
                             modifier = Modifier
                                 .size(40.dp)
@@ -124,15 +125,24 @@ fun Greeting4(name: String, modifier: Modifier = Modifier) {
                                 .padding(start = 20.dp)
                         )
                     }
-
-                    Box (modifier = Modifier.padding(end = 20.dp)){
-                        Image(
-                            painter = painterResource(id = imageIds[index % imageIds.size]),
-                            contentDescription = null,
-                            modifier = Modifier.size(40.dp)
+                    if (index == 2) {
+                        Switch(
+                            checked = isChecked.value,
+                            onCheckedChange = { isChecked.value = it },
+                            modifier = Modifier.padding(end = 20.dp)
                         )
+                    } else {
+                        Box (modifier = Modifier.padding(end = 20.dp)){
+                            Image(
+                                painter = painterResource(id = R.drawable.flecha),
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
                     }
                 }
+                Divider(modifier = Modifier
+                    .fillMaxWidth())
             }
         }
     }
