@@ -15,12 +15,15 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
@@ -60,28 +63,35 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(modifier: Modifier = Modifier) {
     val imageIds = listOf(
-        R.drawable.icon_2_background,
-        R.drawable.icon_3_background,
-        R.drawable.icon_4_background,
-        R.drawable.icon_5_background,
-        R.drawable.icon_6_background,
-        R.drawable.icon_7_background,
-        R.drawable.icon_8_background,
-        R.drawable.icon_9_background,
-        R.drawable.icon_10_background
+        R.drawable.image_fx_,
+        R.drawable.image_fx_1,
+        R.drawable.image_fx_2,
+        R.drawable.image_fx_3,
+        R.drawable.image_fx_4,
+        R.drawable.image_fx_5,
+        R.drawable.image_fx_6,
+        R.drawable.image_fx_7,
+        R.drawable.image_fx_8,
+        R.drawable.image_fx_9
     )
 
     val imageIdsFavorites = listOf(
-        R.drawable.icon_1_background,
-        R.drawable.icon_3_background,
-        R.drawable.icon_5_background,
-        R.drawable.icon_8_background,
-        R.drawable.icon_9_background
+        R.drawable.image_fx_1,
+        R.drawable.image_fx_3,
+        R.drawable.image_fx_5,
+        R.drawable.image_fx_6,
+        R.drawable.image_fx_8
     )
 
     val systemUiController = rememberSystemUiController()
     val color1 = Color(0xFF139DC0)
     val color2 = Color(0xAB13BAC0)
+
+    systemUiController.setSystemBarsColor(
+        color = color1,
+        darkIcons = false
+    )
+
     Column (modifier = Modifier
         .background(color = Color.White)) {
         Row (modifier = Modifier
@@ -103,12 +113,8 @@ fun Greeting(modifier: Modifier = Modifier) {
         LazyColumn (modifier = Modifier
             .background(color = Color.White)
             .fillMaxWidth()
+            .padding(bottom = 55.dp)
         ) {
-            systemUiController.setSystemBarsColor(
-                color = color1,
-                darkIcons = false
-            )
-
             item {
                 Row (modifier = Modifier
                     .background(color = Color.White)
@@ -127,36 +133,55 @@ fun Greeting(modifier: Modifier = Modifier) {
                 }
             }
 
-            var countElements = 1
-
-            val adjustedCount = if (countElements % 2 != 0) countElements + 1 else countElements
-
-            item {
-                LazyVerticalGrid(columns = GridCells.Fixed(2),
+            items(imageIdsFavorites.chunked(2)) { rowImages ->
+                Row(
                     modifier = Modifier
-                        .padding(start = 20.dp, end = 20.dp)
-                        .height(((adjustedCount / 2) * 228).dp)
-                        .fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    items(countElements) {index ->
-                        val imageId = imageIds[index % imageIds.size]
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    rowImages.forEach { imageId ->
+                        Card(
+                            modifier = Modifier
+                                .weight(1f)
+                                .heightIn(min = 135.dp)
+                        ) {
+                            Column (modifier = Modifier
+                                .fillMaxSize()){
+                                // Imagen
+                                Row (modifier = Modifier
+                                    .fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center) {
+                                    Image(
+                                        painter = painterResource(id = imageId),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .padding(8.dp)
+                                    )
+                                }
 
-                        Card (modifier = Modifier
-                            .fillMaxHeight()){
-                            Image(
-                                painter = painterResource(id = imageId),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(15.dp)
-                            )
-                            Text(modifier = Modifier.padding(horizontal = 15.dp),
-                                text = "Item $index")
-                            Text(modifier = Modifier
-                                .padding(horizontal = 15.dp)
-                                .padding(top = 5.dp, bottom = 10.dp),
-                                text = "Description")
+                                // Título
+                                Row (modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 12.dp)) {
+                                    Text(text = "Title",
+                                        style = TextStyle(color = Color.White,
+                                            fontSize = 16.sp),
+                                        modifier = Modifier
+                                            .padding(bottom = 10.dp))
+                                }
+
+                                // Descripción
+                                Row (modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(start = 12.dp)) {
+                                    Text(text = "Desc",
+                                        style = TextStyle(color = Color.White,
+                                            fontSize = 12.sp),
+                                        modifier = Modifier
+                                            .padding(bottom = 10.dp))
+                                }
+                            }
                         }
                     }
                 }
@@ -180,36 +205,26 @@ fun Greeting(modifier: Modifier = Modifier) {
                 }
             }
 
-            var countElements2 = 4
-
-            val adjustedCount2 = if (countElements2 % 2 != 0) countElements2 + 1 else countElements2
-
-            item {
-                LazyVerticalGrid(columns = GridCells.Fixed(2),
+            items(imageIds.chunked(2)) { rowImages ->
+                Row(
                     modifier = Modifier
-                        .padding(start = 20.dp, end = 20.dp, bottom = 32.dp)
-                        .height(((adjustedCount2 / 2) * 228).dp)
-                        .fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    items(countElements2) {index ->
-                        val imageId = imageIds[index % imageIds.size]
-
-                        Card (modifier = Modifier
-                            .fillMaxHeight()){
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    rowImages.forEach { imageId ->
+                        Card(
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(150.dp)
+                        ) {
                             Image(
                                 painter = painterResource(id = imageId),
                                 contentDescription = null,
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .padding(15.dp)
+                                    .padding(8.dp)
                             )
-                            Text(modifier = Modifier.padding(horizontal = 15.dp),
-                                text = "Item $index")
-                            Text(modifier = Modifier
-                                .padding(horizontal = 15.dp)
-                                .padding(top = 5.dp, bottom = 10.dp),
-                                text = "Description")
                         }
                     }
                 }
