@@ -166,7 +166,7 @@ fun Greeting(modifier: Modifier = Modifier) {
                                     .padding(horizontal = 12.dp)) {
                                     Text(text = "Title",
                                         style = TextStyle(color = Color.White,
-                                            fontSize = 16.sp),
+                                            fontSize = 18.sp),
                                         modifier = Modifier
                                             .padding(bottom = 10.dp))
                                 }
@@ -177,7 +177,7 @@ fun Greeting(modifier: Modifier = Modifier) {
                                     .padding(start = 12.dp)) {
                                     Text(text = "Desc",
                                         style = TextStyle(color = Color.White,
-                                            fontSize = 12.sp),
+                                            fontSize = 13.sp),
                                         modifier = Modifier
                                             .padding(bottom = 10.dp))
                                 }
@@ -216,15 +216,44 @@ fun Greeting(modifier: Modifier = Modifier) {
                         Card(
                             modifier = Modifier
                                 .weight(1f)
-                                .height(150.dp)
+                                .heightIn(min = 135.dp)
                         ) {
-                            Image(
-                                painter = painterResource(id = imageId),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(8.dp)
-                            )
+                            Column (modifier = Modifier
+                                .fillMaxSize()){
+                                // Imagen
+                                Row (modifier = Modifier
+                                    .fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center) {
+                                    Image(
+                                        painter = painterResource(id = imageId),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .padding(8.dp)
+                                    )
+                                }
+
+                                // Título
+                                Row (modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 12.dp)) {
+                                    Text(text = "Title",
+                                        style = TextStyle(color = Color.White,
+                                            fontSize = 18.sp),
+                                        modifier = Modifier
+                                            .padding(bottom = 10.dp))
+                                }
+
+                                // Descripción
+                                Row (modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(start = 12.dp)) {
+                                    Text(text = "Desc",
+                                        style = TextStyle(color = Color.White,
+                                            fontSize = 13.sp),
+                                        modifier = Modifier
+                                            .padding(bottom = 10.dp))
+                                }
+                            }
                         }
                     }
                 }

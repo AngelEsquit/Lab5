@@ -48,19 +48,6 @@ class Description : ComponentActivity() {
 
 @Composable
 fun Greeting3(name: String, modifier: Modifier = Modifier) {
-    val imageIds = listOf(
-        R.drawable.icon_2_background,
-        R.drawable.icon_3_background,
-        R.drawable.icon_4_background,
-        R.drawable.icon_5_background,
-        R.drawable.icon_6_background,
-        R.drawable.icon_7_background,
-        R.drawable.icon_8_background,
-        R.drawable.icon_9_background,
-        R.drawable.icon_10_background
-    )
-
-
     val color1 = Color(0xFF139DC0)
 
     LazyColumn {
@@ -83,7 +70,7 @@ fun Greeting3(name: String, modifier: Modifier = Modifier) {
             ) {
                 Text(text = "Title",
                     style = TextStyle(
-                        fontSize = 20.sp,
+                        fontSize = 22.sp,
                         color = Color.Black
                     ),
                     modifier = Modifier
@@ -92,7 +79,7 @@ fun Greeting3(name: String, modifier: Modifier = Modifier) {
 
                 Row (modifier = Modifier.padding(start = 15.dp)){
                     Image(
-                        painter = painterResource(id = imageIds[1]),
+                        painter = painterResource(id = R.drawable.calendario),
                         contentDescription = null,
                         modifier = Modifier
                             .size(40.dp)
