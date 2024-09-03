@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +41,9 @@ class PantallaListado : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting2(
                         name = "Android A",
-                        modifier = Modifier.padding(innerPadding).background(color = Color.White)
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .background(color = Color.White)
                     )
                 }
             }
@@ -51,30 +54,30 @@ class PantallaListado : ComponentActivity() {
 @Composable
 fun Greeting2(name: String, modifier: Modifier = Modifier) {
     val imageIds = listOf(
-        R.drawable.icon_2_background,
-        R.drawable.icon_3_background,
-        R.drawable.icon_4_background,
-        R.drawable.icon_5_background,
-        R.drawable.icon_6_background,
-        R.drawable.icon_7_background,
-        R.drawable.icon_8_background,
-        R.drawable.icon_9_background,
-        R.drawable.icon_10_background
+        R.drawable.image_fx_,
+        R.drawable.image_fx_1,
+        R.drawable.image_fx_2,
+        R.drawable.image_fx_3,
+        R.drawable.image_fx_4,
+        R.drawable.image_fx_5,
+        R.drawable.image_fx_6,
+        R.drawable.image_fx_7,
+        R.drawable.image_fx_8,
+        R.drawable.image_fx_9
     )
 
     LazyColumn (modifier = Modifier
         .padding(top = 35.dp)
         .background(color = Color.White)) {
-        items(5) { index ->
+        items(imageIds.size) { index ->
             Row (modifier = Modifier
                 .fillMaxWidth()
                 .height(80.dp)
-                .background(color = Color.White)
-                .border(width = 2.dp, color = Color.Black),
+                .background(color = Color.White),
                 verticalAlignment = Alignment.CenterVertically){
                 Box (modifier = Modifier.padding(start = 15.dp)){
                     Image(
-                        painter = painterResource(id = imageIds[index % imageIds.size]),
+                        painter = painterResource(id = imageIds[index]),
                         contentDescription = null,
                         modifier = Modifier
                             .size(40.dp)
@@ -103,12 +106,14 @@ fun Greeting2(name: String, modifier: Modifier = Modifier) {
 
                 Box (modifier = Modifier.padding(end = 20.dp)){
                     Image(
-                        painter = painterResource(id = imageIds[index % imageIds.size]),
+                        painter = painterResource(id = R.drawable.flecha),
                         contentDescription = null,
-                        modifier = Modifier.size(40.dp)
+                        modifier = Modifier.size(20.dp)
                     )
                 }
             }
+            Divider(modifier = Modifier
+                .fillMaxWidth())
         }
     }
 }
