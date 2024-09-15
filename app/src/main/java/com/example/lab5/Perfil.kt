@@ -33,27 +33,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.lab5.ui.theme.Lab5Theme
 
-class Perfil : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            Lab5Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting4(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
-    }
-}
-
 @Composable
-fun Greeting4(name: String, modifier: Modifier = Modifier) {
+fun ProfileScreen(navController: NavController = rememberNavController()) {
     val imageIds = listOf(
         R.drawable.perfil,
         R.drawable.candado,
@@ -150,8 +135,8 @@ fun Greeting4(name: String, modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview4() {
+fun ProfileScreenPreview() {
     Lab5Theme {
-        Greeting4("Android")
+        ProfileScreen()
     }
 }

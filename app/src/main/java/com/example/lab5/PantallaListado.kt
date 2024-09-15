@@ -30,29 +30,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.lab5.ui.theme.Lab5Theme
 
-class PantallaListado : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            Lab5Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting2(
-                        name = "Android A",
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .background(color = Color.White)
-                    )
-                }
-            }
-        }
-    }
-}
-
 @Composable
-fun Greeting2(name: String, modifier: Modifier = Modifier) {
+fun ListScreen(navController: NavController = rememberNavController()) {
     val imageIds = listOf(
         R.drawable.image_fx_,
         R.drawable.image_fx_1,
@@ -120,8 +103,8 @@ fun Greeting2(name: String, modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview2() {
+fun ListScreenPreview() {
     Lab5Theme {
-        Greeting2("Android")
+        ListScreen()
     }
 }
