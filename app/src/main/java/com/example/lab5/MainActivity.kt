@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -27,15 +28,25 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalMapOf
 import androidx.compose.ui.res.painterResource
@@ -49,6 +60,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.example.lab5.ui.theme.Lab5Theme
 import com.example.lab5.AppNavigation
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
@@ -57,20 +69,91 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
+            val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+            val scope = rememberCoroutineScope()
 
             Lab5Theme {
-                Scaffold(
-                    topBar = {
-                        TopAppBar(
-                            title = { Text(text = "TodoEventos", modifier = Modifier.padding(start = 5.dp)) },
-                            colors = TopAppBarDefaults.topAppBarColors(
-                                containerColor = Color(0xFF139DC0), // Color de fondo
-                                titleContentColor = Color.White, // Color del título
-                                actionIconContentColor = Color.White // Color de los iconos
+                ModalNavigationDrawer(
+                    drawerState = drawerState,
+                    drawerContent = {
+                        ModalDrawerSheet (){
+                            // Contenido del Drawer
+                            Row (modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center) {
+                                Text("Menú",
+                                    modifier = Modifier.padding(vertical = 25.dp),
+                                    fontSize = 20.sp)
+                            }
+                            HorizontalDivider(modifier = Modifier.padding(bottom = 20.dp))
+                            Row (modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                navController.navigate("home")
+                                scope.launch { drawerState.close() }
+                            }) {
+                                Text("Inicio", modifier = Modifier.padding(16.dp))
+                            }
+                            Row (modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                navController.navigate("list")
+                                scope.launch { drawerState.close() }
+                            }) {
+                                Text("Listado de Conciertos", modifier = Modifier.padding(16.dp))
+                            }
+                            Row (modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                navController.navigate("desc")
+                                scope.launch { drawerState.close() }
+                            }) {
+                                Text("Descripción de concierto", modifier = Modifier.padding(16.dp))
+                            }
+                            Row (modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                navController.navigate("profile")
+                                scope.launch { drawerState.close() }
+                            }) {
+                            Text("Perfil", modifier = Modifier.padding(16.dp))
+                            }
+                        }
+                    })
+                {
+                    Scaffold(
+                        topBar = {
+                            TopAppBar(
+                                title = {
+                                    Text(
+                                        text = "TodoEventos",
+                                        modifier = Modifier
+                                            .padding(start = 5.dp)
+                                            .clickable {
+                                                navController.navigate("home")
+                                            }
+                                    )
+                                },
+                                colors = TopAppBarDefaults.topAppBarColors(
+                                    containerColor = Color(0xFF139DC0),
+                                    titleContentColor = Color.White,
+                                    actionIconContentColor = Color.White
+                                ),
+                                navigationIcon = {
+                                    IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.ic_menu),
+                                            contentDescription = "Menú"
+                                        )
+                                    }
+                                }
                             )
-                        )
-                    }) { innerPadding ->
-                    AppNavigation(navController = navController, innerPadding = innerPadding)
+                        },
+                        modifier = Modifier
+                            .background(color = Color.White)
+                            .fillMaxSize()
+                    ) { innerPadding ->
+                        AppNavigation(navController = navController, innerPadding = innerPadding)
+                    }
                 }
             }
         }
@@ -102,7 +185,7 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
 
     val systemUiController = rememberSystemUiController()
     val color1 = Color(0xFF139DC0)
-    val color2 = Color(0xAB13BAC0)
+    val color2 = Color(0xFF13AAAF)
 
     systemUiController.setSystemBarsColor(
         color = color1,
@@ -147,6 +230,9 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
                             modifier = Modifier
                                 .weight(1f)
                                 .heightIn(min = 135.dp)
+                                .clickable {
+                                    navController.navigate("desc")
+                                }
                         ) {
                             Column (modifier = Modifier
                                 .fillMaxSize()){
@@ -219,6 +305,9 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
                             modifier = Modifier
                                 .weight(1f)
                                 .heightIn(min = 135.dp)
+                                .clickable {
+                                    navController.navigate("desc")
+                                }
                         ) {
                             Column (modifier = Modifier
                                 .fillMaxSize()){

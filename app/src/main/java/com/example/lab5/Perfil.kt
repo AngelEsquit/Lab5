@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -48,20 +49,19 @@ fun ProfileScreen(navController: NavController = rememberNavController()) {
 
 
     val color1 = Color(0xFF139DC0)
+    val color2 = Color(0xFF13AAAF)
 
     // Estado del switch
     val isChecked = remember { mutableStateOf(false) }
 
     Column (modifier = Modifier
-        .padding(top = 35.dp)
         .fillMaxSize()
         .background(color = Color.White)
     ) {
         Column (modifier = Modifier
             .height(350.dp)
-            .padding(top = 35.dp)
             .fillMaxWidth()
-            .background(color = color1),
+            .background(color = color2),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box (modifier = Modifier.padding(top = 60.dp)){
@@ -85,6 +85,16 @@ fun ProfileScreen(navController: NavController = rememberNavController()) {
         LazyColumn (modifier = Modifier
             .background(color = Color.White)) {
             items(4) { index ->
+                var text = ""
+                if (index == 0) {
+                    text = "Editar perfil"
+                } else if (index == 1) {
+                    text = "Cambiar contraseña"
+                } else if (index == 2) {
+                    text = "Configuración de notificaciones"
+                } else if (index == 3) {
+                    text = "Favoritos"
+                }
                 Row (modifier = Modifier
                     .fillMaxWidth()
                     .height(80.dp)
@@ -102,9 +112,10 @@ fun ProfileScreen(navController: NavController = rememberNavController()) {
                     Column (modifier = Modifier
                         .weight(1f)
                         .fillMaxSize()
-                        .padding(vertical = 15.dp)) {
+                        .padding(vertical = 15.dp),
+                        verticalArrangement = Arrangement.Center) {
                         Text(
-                            text = "Item $index",
+                            text = "$text",
                             style = TextStyle(color = Color.Black),
                             modifier = Modifier
                                 .padding(start = 20.dp)
@@ -126,8 +137,10 @@ fun ProfileScreen(navController: NavController = rememberNavController()) {
                         }
                     }
                 }
-                Divider(modifier = Modifier
-                    .fillMaxWidth())
+                HorizontalDivider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
             }
         }
     }
