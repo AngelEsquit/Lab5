@@ -10,7 +10,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,58 +26,42 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalMapOf
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.example.lab5.ui.theme.Lab5Theme
-import com.example.lab5.AppNavigation
 
-@OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val navController = rememberNavController()
-
             Lab5Theme {
-                Scaffold(
-                    topBar = {
-                        TopAppBar(
-                            title = { Text(text = "TodoEventos", modifier = Modifier.padding(start = 5.dp)) },
-                            colors = TopAppBarDefaults.topAppBarColors(
-                                containerColor = Color(0xFF139DC0), // Color de fondo
-                                titleContentColor = Color.White, // Color del título
-                                actionIconContentColor = Color.White // Color de los iconos
-                            )
-                        )
-                    }) { innerPadding ->
-                    AppNavigation(navController = navController, innerPadding = innerPadding)
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Greeting(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .systemBarsPadding()
+                    )
                 }
             }
         }
     }
 }
 
+
 @Composable
-fun HomeScreen(navController: NavController = rememberNavController()) {
+fun Greeting(modifier: Modifier = Modifier) {
     val imageIds = listOf(
         R.drawable.image_fx_,
         R.drawable.image_fx_1,
@@ -110,19 +93,34 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
     )
 
     Column (modifier = Modifier
-        .background(color = Color.White)
-        .padding(bottom = 10.dp)) {
+        .background(color = Color.White)) {
+        Row (modifier = Modifier
+            .background(color = color1)
+            .fillMaxWidth()
+            .height(95.dp)
+            .padding(top = 30.dp, start = 25.dp, end = 25.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Text(modifier = Modifier,
+                text = "TodoEventos",
+                style = TextStyle(
+                    fontSize = 21.sp,
+                    color = Color.White
+                )
+            )
+        }
 
         LazyColumn (modifier = Modifier
             .background(color = Color.White)
             .fillMaxWidth()
+            .padding(bottom = 55.dp)
         ) {
             item {
                 Row (modifier = Modifier
                     .background(color = Color.White)
                     .fillMaxWidth()
                     .height(90.dp)
-                    .padding(horizontal = 20.dp),
+                    .padding(start = 25.dp, end = 25.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(modifier = Modifier,
@@ -194,7 +192,7 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
                     .background(color = Color.White)
                     .fillMaxWidth()
                     .height(90.dp)
-                    .padding(horizontal = 20.dp),
+                    .padding(start = 25.dp, end = 25.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(modifier = Modifier,
@@ -266,8 +264,8 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
 
 @Preview(showBackground = true)
 @Composable
-fun HomeScreenPreview() {
+fun GreetingPreview() {
     Lab5Theme {
-        HomeScreen()
+        Greeting()
     }
 }

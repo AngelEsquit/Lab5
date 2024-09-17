@@ -27,12 +27,27 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.lab5.ui.theme.Lab5Theme
 
+class Description : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            Lab5Theme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Greeting3(
+                        name = "Android",
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+            }
+        }
+    }
+}
+
 @Composable
-fun DescriptionScreen(navController: NavController = rememberNavController()) {
+fun Greeting3(name: String, modifier: Modifier = Modifier) {
     val color1 = Color(0xFF139DC0)
 
     LazyColumn {
@@ -125,8 +140,8 @@ fun DescriptionScreen(navController: NavController = rememberNavController()) {
 
 @Preview(showBackground = true)
 @Composable
-fun DescriptionScreenPreview() {
+fun GreetingPreview3() {
     Lab5Theme {
-        DescriptionScreen()
+        Greeting3("Android")
     }
 }

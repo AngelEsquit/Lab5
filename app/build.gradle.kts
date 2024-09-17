@@ -61,7 +61,6 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.coil.compose)
     implementation(libs.accompanist.systemuicontroller)
-    implementation("androidx.navigation:navigation-compose:2.8.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
