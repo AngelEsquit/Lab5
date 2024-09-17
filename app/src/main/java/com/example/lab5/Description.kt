@@ -34,16 +34,14 @@ import com.example.lab5.ui.theme.Lab5Theme
 @Composable
 fun DescriptionScreen(navController: NavController = rememberNavController()) {
     val color1 = Color(0xFF139DC0)
-    val color2 = Color(0xFF13AAAF)
 
-    LazyColumn (modifier = Modifier
-        .fillMaxSize()
-        .background(color = Color.White)) {
+    LazyColumn {
         item {
             Row (modifier = Modifier
-                .height(240.dp)
+                .height(350.dp)
+                .padding(top = 35.dp)
                 .fillMaxWidth()
-                .background(color = color2)
+                .background(color = color1)
             ) {
 
             }
