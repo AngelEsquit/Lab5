@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -53,13 +54,11 @@ fun ProfileScreen(navController: NavController = rememberNavController()) {
     val isChecked = remember { mutableStateOf(false) }
 
     Column (modifier = Modifier
-        .padding(top = 35.dp)
         .fillMaxSize()
         .background(color = Color.White)
     ) {
         Column (modifier = Modifier
             .height(350.dp)
-            .padding(top = 35.dp)
             .fillMaxWidth()
             .background(color = color1),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -126,8 +125,10 @@ fun ProfileScreen(navController: NavController = rememberNavController()) {
                         }
                     }
                 }
-                Divider(modifier = Modifier
-                    .fillMaxWidth())
+                HorizontalDivider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
             }
         }
     }

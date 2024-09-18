@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,17 +14,24 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,28 +40,26 @@ import androidx.navigation.compose.rememberNavController
 import com.example.lab5.ui.theme.Lab5Theme
 
 @Composable
-fun DescriptionScreen(navController: NavController = rememberNavController()) {
-    val color1 = Color(0xFF139DC0)
+fun DescriptionScreen(navController: NavController = rememberNavController(), viewModel: MainViewModel, itemId: Int) {
+    val context = LocalContext.current
 
-    LazyColumn {
+    LazyColumn (modifier = Modifier
+        .heightIn(min = 100.dp))
+    {
         item {
-            Row (modifier = Modifier
-                .height(350.dp)
-                .padding(top = 35.dp)
-                .fillMaxWidth()
-                .background(color = color1)
-            ) {
-
-            }
+            Image(painter = painterResource(id = viewModel.items[itemId - 1].image),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth())
         }
 
         item {
             Column (modifier = Modifier
-                .height(450.dp)
+                .heightIn(min = 450.dp)
                 .fillMaxWidth()
                 .background(color = Color.White)
             ) {
-                Text(text = "Title",
+                Text(text = viewModel.items[itemId - 1].name,
                     style = TextStyle(
                         fontSize = 22.sp,
                         color = Color.Black
@@ -62,7 +68,9 @@ fun DescriptionScreen(navController: NavController = rememberNavController()) {
                         .padding(20.dp)
                 )
 
-                Row (modifier = Modifier.padding(start = 15.dp)){
+                Row (modifier = Modifier
+                    .padding(start = 15.dp),
+                    verticalAlignment = Alignment.CenterVertically,){
                     Image(
                         painter = painterResource(id = R.drawable.calendario),
                         contentDescription = null,
@@ -70,17 +78,17 @@ fun DescriptionScreen(navController: NavController = rememberNavController()) {
                             .size(40.dp)
                     )
 
-                    Text(text = "Fecha",
+                    Text(text = "Fecha:" + " " + viewModel.items[itemId - 1].date,
                         style = TextStyle(
                             fontSize = 15.sp,
                             color = Color.Black
                         ),
                         modifier = Modifier
                             .padding(15.dp)
-                            .padding(end = 70.dp)
+                            .padding(end = 30.dp)
                     )
 
-                    Text(text = "Hora",
+                    Text(text = "Hora:" + " " + viewModel.items[itemId - 1].hour,
                         style = TextStyle(
                             fontSize = 15.sp,
                             color = Color.Black
@@ -108,11 +116,25 @@ fun DescriptionScreen(navController: NavController = rememberNavController()) {
                         .padding(15.dp)
                 )
 
-                Row {
-                    Button(onClick = { /*TODO*/ },
+                Row (modifier = Modifier
+                    .padding(vertical = 20.dp)
+                    .heightIn(min = 50.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center){
+                    Button(onClick = {
+                        viewModel.addOrRemoveFavorite(viewModel.items[itemId - 1], context)
+                        navController.navigate("home")
+                                     },
                         modifier = Modifier
-                            .padding(horizontal = 60.dp)) {
-                        Text(text = "Favorito")
+                            .padding(horizontal = 50.dp)
+                            .width(125.dp)
+                            .height(80.dp)){
+                        Row (verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center){
+                            Text(if (viewModel.items[itemId - 1] in viewModel.favorites) "Quitar de favoritos"
+                            else "Agregar a favoritos", style = TextStyle(textAlign = TextAlign.Center)
+                            )
+                        }
                     }
                     Button(onClick = { /*TODO*/ }) {
                         Text(text = "Comprar")
@@ -120,13 +142,5 @@ fun DescriptionScreen(navController: NavController = rememberNavController()) {
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DescriptionScreenPreview() {
-    Lab5Theme {
-        DescriptionScreen()
     }
 }

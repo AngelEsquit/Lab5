@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,32 +37,19 @@ import androidx.navigation.compose.rememberNavController
 import com.example.lab5.ui.theme.Lab5Theme
 
 @Composable
-fun ListScreen(navController: NavController = rememberNavController()) {
-    val imageIds = listOf(
-        R.drawable.image_fx_,
-        R.drawable.image_fx_1,
-        R.drawable.image_fx_2,
-        R.drawable.image_fx_3,
-        R.drawable.image_fx_4,
-        R.drawable.image_fx_5,
-        R.drawable.image_fx_6,
-        R.drawable.image_fx_7,
-        R.drawable.image_fx_8,
-        R.drawable.image_fx_9
-    )
-
+fun ListScreen(navController: NavController = rememberNavController(), viewModel: MainViewModel) {
     LazyColumn (modifier = Modifier
-        .padding(top = 35.dp)
         .background(color = Color.White)) {
-        items(imageIds.size) { index ->
+        items(viewModel.items.size) { index ->
             Row (modifier = Modifier
                 .fillMaxWidth()
                 .height(80.dp)
-                .background(color = Color.White),
+                .background(color = Color.White)
+                .clickable { navController.navigate("desc/${viewModel.items[index].id}") },
                 verticalAlignment = Alignment.CenterVertically){
                 Box (modifier = Modifier.padding(start = 15.dp)){
                     Image(
-                        painter = painterResource(id = imageIds[index]),
+                        painter = painterResource(id = viewModel.items[index].image),
                         contentDescription = null,
                         modifier = Modifier
                             .size(40.dp)
@@ -72,7 +61,7 @@ fun ListScreen(navController: NavController = rememberNavController()) {
                     .fillMaxSize()
                     .padding(vertical = 15.dp)) {
                     Text(
-                        text = "Item $index",
+                        text = viewModel.items[index].name,
                         style = TextStyle(color = Color.Black),
                         modifier = Modifier
                             .padding(start = 20.dp)
@@ -95,16 +84,10 @@ fun ListScreen(navController: NavController = rememberNavController()) {
                     )
                 }
             }
-            Divider(modifier = Modifier
-                .fillMaxWidth())
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ListScreenPreview() {
-    Lab5Theme {
-        ListScreen()
     }
 }
